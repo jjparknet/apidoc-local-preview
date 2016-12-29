@@ -1,0 +1,25 @@
+{
+  "name": "apidoc-local-preview",
+  "version": "0.1.0",
+  "description": "apidoc tool, local previewer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/jjparknet/apidoc-local-preview",
+  "keywords": [
+    "Electron",
+    "apidoc",
+    "electron",
+    "local",
+    "preview"
+  ],
+  "author": "jjparknet@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "gulp-apidoc": "^0.2.4"
+  }
+}
