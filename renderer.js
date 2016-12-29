@@ -20,10 +20,3 @@ window.addEventListener('resize', (e) => {
 ipcRenderer.on('reload-apidoc', (event, arg) => {
   webview.reload()
 })
-
-const openDirectory = () => {
-  const files = dialog.showOpenDialog({properties: ['openDirectory', 'multiSelections']}) || []
-  files.forEach((filePath) => {
-    ipcRenderer.send('run-apidoc', { src: filePath })
-  })
-}
