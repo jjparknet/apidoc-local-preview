@@ -12,7 +12,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 1280, height: 720})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -32,41 +32,19 @@ function createWindow () {
     mainWindow = null
   })
 
-  const template = [
-    {
-      label: 'File',
-      submenu: [
-        {
-          label: 'open project folder',
-          role: 'open-project-folder',
-          click() { openDirectory() }
-        },
-      ]
-    },
-  ]
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
+  Menu.setApplicationMenu(null)
 }
 
-const reloadApidoc = () => {
-  mainWindow.webContents.send('reload-apidoc')
-}
-
-const runApiDoc = src => {
+ipcMain.on('generate-apidoc', (event, arg) => {
   try {
     apidoc({
-        src,
-        dest: "./apidoc",
-    }, reloadApidoc)
+        src: arg.src,
+        dest: arg.dest,
+    }, () => event.sender.send('reload-apidoc'))
   } catch (err) {
     console.error(err)
   }
-}
-
-const openDirectory = () => {
-  const files = dialog.showOpenDialog({properties: ['openDirectory']}) || []
-  files.forEach((src) => runApiDoc(src))
-}
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

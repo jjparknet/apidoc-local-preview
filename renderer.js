@@ -8,15 +8,36 @@ const { ipcRenderer } = require('electron')
 const { dialog } = require('electron').remote
 
 const webview = document.getElementById('docView')
-
-window.addEventListener('resize', (e) => {
-  if (e.isTrusted) {
-    const { innerWidth, innerHeight } = e.target
-    webview.style.width = innerWidth + 'px'
-    webview.style.height = innerHeight + 'px'
-  }
-})
+const inputSrc = document.getElementById('input-src-path')
+const inputDest = document.getElementById('input-dest-path')
 
 ipcRenderer.on('reload-apidoc', (event, arg) => {
+  webview.src = inputDest.value + '/index.html'
   webview.reload()
 })
+
+window.generateApidoc = () => {
+  if (!inputSrc.value || inputSrc.value.length == 0) {
+    return swal('please select project folder')
+  }
+
+  if (!inputDest.value || inputDest.value.length == 0) {
+    return swal('please select output folder')
+  }
+
+  ipcRenderer.send('generate-apidoc', { src: inputSrc.value, dest: inputDest.value })
+}
+
+window.openSourceDirectory = () => {
+  const path = dialog.showOpenDialog({properties: ['openDirectory']})
+  if (path) {
+    inputSrc.value = path[0]
+  }
+}
+
+window.openDestDirectory = () => {
+  const path = dialog.showOpenDialog({properties: ['openDirectory']})
+  if (path) {
+    inputDest.value = path[0]
+  }
+}

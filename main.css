@@ -1,0 +1,11 @@
+input[type=text] {
+  width: calc(100% - 110px);
+}
+
+button.select-folder {
+  width: 105px;
+}
+
+button.generate-apidoc {
+  width: 100%;
+}

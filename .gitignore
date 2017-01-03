@@ -1,2 +1,4 @@
 node_modules
 apidoc
+*.log.*
+*.log
